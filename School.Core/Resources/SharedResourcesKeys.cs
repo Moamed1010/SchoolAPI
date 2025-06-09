@@ -13,6 +13,7 @@
         public const string MaxLength = "MaxLength";
         public const string BadRequest = "BadRequest";
         public const string IsExist = "IsExist";
+        public const string Invalid = "Invalid";
 
 
     }

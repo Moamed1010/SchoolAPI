@@ -1,8 +1,11 @@
 
+using FluentValidation;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using School.Core;
+using School.Core.Features.Department.Commands.Validators;
+using School.Core.Features.Department.Quaries.Models;
 using School.Core.Middleware;
 using School.service;
 using Shcool.Infrustructure;
@@ -27,6 +30,8 @@ namespace School.API
                 .AddSeeviceDependencies()
 
                 .AddCoreDependencies();
+            builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(typeof(GetDepartmentListQuery).Assembly));
             #endregion
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -34,6 +39,7 @@ namespace School.API
 
             #region Localization
             builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+            builder.Services.AddValidatorsFromAssemblyContaining<EditDepartmentValidator>();
 
 
             builder.Services.Configure<RequestLocalizationOptions>(options =>
@@ -69,7 +75,7 @@ namespace School.API
                         policy.AllowAnyOrigin();
                         policy.AllowAnyMethod();
                         policy.AllowAnyHeader();
-                        policy.AllowCredentials();
+
 
                     });
             });

@@ -14,6 +14,7 @@ namespace School.Core.Features.Department.Quaries.Handler
 {
     public class DepartmentQueryHandler : ResponseHandler,
         IRequestHandler<GetDepartmentByIDQueryModel, Response<GetDepartmentByIDQueryResponse>>
+        , IRequestHandler<GetDepartmentListQuery, Response<List<GetDepartmentListResponse>>>
     {
 
 
@@ -41,6 +42,18 @@ namespace School.Core.Features.Department.Quaries.Handler
 
         #endregion
         #region Handle Function
+
+        public async Task<Response<List<GetDepartmentListResponse>>> Handle(GetDepartmentListQuery request, CancellationToken cancellationToken)
+        {
+            var departments = await _departmentService.GetListAsync();
+            var mappedDepartments = _mapper.Map<List<GetDepartmentListResponse>>(departments);
+
+            var result = Success(mappedDepartments);
+            result.Meta = new { Count = mappedDepartments.Count };
+
+            return result;
+        }
+
         public async Task<Response<GetDepartmentByIDQueryResponse>> Handle(GetDepartmentByIDQueryModel request, CancellationToken cancellationToken)
         {
             var response = await _departmentService.GetDepartmentById(request.ID);

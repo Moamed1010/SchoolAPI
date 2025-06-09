@@ -66,6 +66,7 @@ namespace School.Core.Features.Students.Commands.Handlers
             else return base.BadRequest<string>(_stringLocalizer[SharedResourcesKeys.BadRequest]);
 
         }
+
         #endregion
 
     }
