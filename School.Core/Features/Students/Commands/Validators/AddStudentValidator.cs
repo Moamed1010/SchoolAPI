@@ -11,13 +11,16 @@ namespace School.Core.Features.Students.Commands.Validators
         #region Fields
         private readonly IStudentService _studentService;
         private readonly IStringLocalizer<SharedResources> _stringLocalizer;
+        private readonly IDepartmentService _departmentService;
 
         #endregion
 
         #region Constructors
         public AddStudentValidator(IStudentService studentService,
-                                                       IStringLocalizer<SharedResources> stringLocalizer)
+                                                       IStringLocalizer<SharedResources> stringLocalizer
+                                                        , IDepartmentService departmentService)
         {
+            _departmentService = departmentService;
             _studentService = studentService;
             _stringLocalizer = stringLocalizer;
             ApplyValidationsRoles();
@@ -51,7 +54,9 @@ namespace School.Core.Features.Students.Commands.Validators
                 .WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
                 .NotNull()
                 .WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
-
+            RuleFor(x => x.DepartmentId)
+                .NotEmpty().WithMessage(_stringLocalizer[SharedResourcesKeys.NotEmpty])
+                .NotNull().WithMessage(_stringLocalizer[SharedResourcesKeys.Required]);
 
         }
         public void ApplyCustomValidations()
@@ -62,6 +67,9 @@ namespace School.Core.Features.Students.Commands.Validators
             RuleFor(x => x.NameEn)
                  .MustAsync(async (Key, CancellationToken) => !await _studentService.IsNameExist(Key))
                  .WithMessage(_stringLocalizer[SharedResourcesKeys.IsExist]);
+            RuleFor(x => x.DepartmentId)
+                .MustAsync(async (Key, CancellationToken) => await _departmentService.IsDepartmentIdExist(Key))
+                .WithMessage(_stringLocalizer[SharedResourcesKeys.IsNotExist]);
         }
         #endregion
     }

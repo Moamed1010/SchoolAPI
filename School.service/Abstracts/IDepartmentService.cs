@@ -10,6 +10,7 @@ namespace School.service.Abstracts
         public Task<bool> UpdateAsync(Department department);
         public Task<bool> DeleteAsync(Department department);
         Task<bool> IsNameExistExcludeSelf(string name, int id);
+        public Task<bool> IsDepartmentIdExist(int departmentid);
 
     }
 }

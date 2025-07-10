@@ -84,6 +84,12 @@ namespace School.service.Implementations
                 .AnyAsync(x => x.DNameEn == name && x.DID != id);
         }
 
+        public async Task<bool> IsDepartmentIdExist(int departmentid)
+        {
+            return await _departmentRepository.GetTableNoTracking()
+             .AnyAsync(x => x.DID == departmentid);
+        }
+
 
         #endregion
 

@@ -14,6 +14,8 @@
         public const string BadRequest = "BadRequest";
         public const string IsExist = "IsExist";
         public const string Invalid = "Invalid";
+        public const string IsNotExist = "DepartmentIsNotExist";
+        public const string DepartmentID = "DepartmentID";
 
 
     }
