@@ -1,9 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using School.Data.Models;
+using School.Data.Models.Identity;
 
 namespace Shcool.Infrustructure.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<User, IdentityRole<int>, int, IdentityUserClaim<int>
+        , IdentityUserRole<int>, IdentityUserLogin<int>, IdentityRoleClaim<int>, IdentityUserToken<int>>
     {
         public AppDbContext()
         {
@@ -14,6 +18,7 @@ namespace Shcool.Infrustructure.Data
 
         }
         public DbSet<Student> Students { get; set; }
+        public DbSet<User> User { get; set; }
         public DbSet<Subjects> Subjects { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepartmetSubject> DepartmetSubjects { get; set; }
