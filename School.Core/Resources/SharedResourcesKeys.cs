@@ -16,6 +16,10 @@
         public const string Invalid = "Invalid";
         public const string IsNotExist = "DepartmentIsNotExist";
         public const string DepartmentID = "DepartmentID";
+        public const string PasswordNptEqualConfiemPassword = "PasswordNptEqualConfiemPassword";
+        public const string EmailIsExist = "EmailIsExist";
+        public const string UserNameIsExist = "UserNameIsExist";
+        public const string FaildToAddUser = "FaildToAddUser";
 
 
     }
