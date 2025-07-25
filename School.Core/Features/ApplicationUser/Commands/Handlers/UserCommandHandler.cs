@@ -12,7 +12,8 @@ namespace School.Core.Features.ApplicationUser.Commands.Handlers
 {
 
     public class UserCommandHandler : ResponseHandler,
-    IRequestHandler<AddUserCommand, Response<string>>
+    IRequestHandler<AddUserCommand, Response<string>>,
+    IRequestHandler<EditUserCommand, Response<string>>
     {
         #region Fildes
         private readonly IMapper _mapper;
@@ -56,6 +57,20 @@ namespace School.Core.Features.ApplicationUser.Commands.Handlers
             }
 
             return Created("");
+        }
+
+        public async Task<Response<string>> Handle(EditUserCommand request, CancellationToken cancellationToken)
+        {
+            var oldUser = await _userManager.FindByIdAsync(request.Id.ToString());
+            if (oldUser == null) return NotFound<string>(_sharedResources[SharedResourcesKeys.NotFound]);
+            var newUser = _mapper.Map(request, oldUser);
+            var result = await _userManager.UpdateAsync(newUser);
+            if (!result.Succeeded)
+            {
+                return BadRequest<string>(_sharedResources[SharedResourcesKeys.UpdatedFailed]);
+            }
+            return Success((string)_sharedResources[SharedResourcesKeys.Updated]);
+
         }
         #endregion
 
