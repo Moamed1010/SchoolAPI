@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿
+using MediatR;
 using School.Core.Basecs;
 
 namespace School.Core.Features.ApplicationUser.Commands.Models
